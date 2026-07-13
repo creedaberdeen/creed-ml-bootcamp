@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CREED Machine Learning Bootcamp</title>
+  <style>
+    /* ── Tokens ───────────────────────────────────────────── */
+    :root {
+      --bg:        #1E2030;
+      --surface:   #272742;
+      --surface2:  #2e2e50;
+      --border:    #585880;
+      --border-hi: #9370DB;
+      --title:     #C084FC;
+      --body:      #D4D4E8;
+      --muted:     #8888A8;
+      --comment:   #6B6B90;
+      --green:     #98D4A0;
+      --teal:      #50C3A5;
+      --red:       #F08080;
+      --amber:     #FEBC2E;
+      --font-mono: "Courier New", "Lucida Console", monospace;
+      --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --radius:    10px;
+    }
+
+    /* ── Reset ────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--body);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    a { color: var(--teal); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Nav ──────────────────────────────────────────────── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(30, 32, 48, 0.94);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 52px;
+    }
+    .nav-logo {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+    .nav-logo span { color: var(--title); font-weight: bold; }
+    .nav-links {
+      display: flex;
+      gap: 1.8rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--title); text-decoration: none; }
+
+    /* ── Hero ─────────────────────────────────────────────── */
+    .hero {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 5rem 2rem 4rem;
+    }
+    .hero-kicker {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--comment);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+    .hero-title {
+      font-family: var(--font-mono);
+      font-size: clamp(2.4rem, 6vw, 4.2rem);
+      font-weight: 700;
+      color: var(--title);
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      margin-bottom: 1.4rem;
+    }
+    .hero-subtitle {
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      color: var(--muted);
+      margin-bottom: 0.6rem;
+    }
+    .hero-subtitle span.val { color: var(--green); }
+    .hero-prompt {
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      color: var(--body);
+      margin-bottom: 2.5rem;
+    }
+    .hero-prompt .prompt { color: var(--teal); }
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      height: 1.1em;
+      background: var(--title);
+      vertical-align: text-bottom;
+      margin-left: 2px;
+      animation: blink 1.1s step-end infinite;
+    }
+    @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+    .hero-divider {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--comment);
+      border-top: 1px solid var(--border);
+      padding-top: 1.4rem;
+      letter-spacing: 0.12em;
+    }
+
+    /* ── Section wrapper ──────────────────────────────────── */
+    .section {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 3.5rem 2rem;
+    }
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--comment);
+      letter-spacing: 0.14em;
+      margin-bottom: 0.5rem;
+    }
+    .section-title {
+      font-family: var(--font-mono);
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: var(--title);
+      margin-bottom: 2.5rem;
+    }
+
+    /* ── Day cards ────────────────────────────────────────── */
+    .day-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem 2rem 1.8rem;
+      margin-bottom: 1.4rem;
+      transition: border-color 0.2s;
+    }
+    .day-card:hover { border-color: var(--border-hi); }
+    .day-card.featured { border-color: var(--border-hi); }
+    .day-meta {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--comment);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+    }
+    .day-title {
+      font-family: var(--font-mono);
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--title);
+      margin-bottom: 0.5rem;
+    }
+    .day-description {
+      font-size: 0.95rem;
+      color: var(--muted);
+      margin-bottom: 1.4rem;
+      font-style: italic;
+    }
+    .day-body {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1.5rem;
+      align-items: start;
+    }
+    @media (max-width: 600px) {
+      .day-body { grid-template-columns: 1fr; }
+    }
+    .day-learns h4 {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--comment);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.6rem;
+    }
+    .day-learns ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+    .day-learns li {
+      font-size: 0.9rem;
+      color: var(--body);
+      padding-left: 1.2rem;
+      position: relative;
+    }
+    .day-learns li::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: var(--title);
+      font-size: 0.75rem;
+      top: 0.12em;
+    }
+    .day-resources {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      min-width: 190px;
+    }
+    .day-resources h4 {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--comment);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.2rem;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.45rem 0.85rem;
+      border-radius: 5px;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: opacity 0.15s, background 0.15s;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .btn:hover { opacity: 0.85; text-decoration: none; }
+    .btn-slides {
+      background: var(--surface2);
+      color: var(--body);
+      border: 1px solid var(--border);
+    }
+    .btn-notebook {
+      background: rgba(80,195,165,0.15);
+      color: var(--teal);
+      border: 1px solid var(--teal);
+    }
+    .btn-data {
+      background: rgba(152,212,160,0.12);
+      color: var(--green);
+      border: 1px solid var(--green);
+    }
+    .btn-disabled {
+      background: var(--surface);
+      color: var(--comment);
+      border: 1px dashed var(--border);
+      cursor: default;
+      pointer-events: none;
+    }
+    .btn svg {
+      width: 13px;
+      height: 13px;
+      flex-shrink: 0;
+    }
+
+    /* ── Locked cards ─────────────────────────────────────── */
+    .day-card.locked {
+      opacity: 0.55;
+      pointer-events: none;
+      position: relative;
+      user-select: none;
+    }
+    .day-card.locked::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: var(--radius);
+      background: repeating-linear-gradient(
+        135deg,
+        transparent,
+        transparent 6px,
+        rgba(88,88,128,0.06) 6px,
+        rgba(88,88,128,0.06) 12px
+      );
+      pointer-events: none;
+    }
+    .lock-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--comment);
+      background: rgba(88,88,128,0.18);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.3rem 0.7rem;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.8rem;
+    }
+    .lock-badge svg {
+      width: 11px;
+      height: 11px;
+      flex-shrink: 0;
+    }
+
+    /* Day 5 special */
+    .day-freeform {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+    }
+    .code-block {
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      color: var(--body);
+      line-height: 2;
+    }
+    .code-block .c { color: var(--comment); }
+    .code-block .kw { color: var(--title); }
+    .code-block .str { color: var(--green); }
+    .code-block .fn { color: var(--teal); }
+
+    /* ── Glossary ─────────────────────────────────────────── */
+    #glossary { border-top: 1px solid var(--border); }
+    .glossary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1rem;
+    }
+    @media (max-width: 540px) {
+      .glossary-grid { grid-template-columns: 1fr; }
+    }
+    .glossary-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.1rem 1.3rem;
+      transition: border-color 0.15s;
+    }
+    .glossary-card:hover { border-color: var(--border-hi); }
+    .glossary-term {
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--green);
+      margin-bottom: 0.35rem;
+    }
+    .glossary-def {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    /* ── Footer ───────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+    }
+    .footer-logo {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--comment);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.4rem;
+    }
+    .footer-note {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--border);
+    }
+
+    /* ── Team ─────────────────────────────────────────────── */
+    #team { border-top: 1px solid var(--border); }
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 1.2rem;
+    }
+    .team-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.8rem 1.4rem 1.6rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: border-color 0.2s;
+    }
+    .team-card:hover { border-color: var(--border-hi); }
+    .avatar {
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 1.1rem;
+      flex-shrink: 0;
+    }
+    .avatar-lead {
+      background: rgba(192,132,252,0.15);
+      border: 2px solid var(--title);
+      color: var(--title);
+    }
+    .avatar-volunteer {
+      background: rgba(80,195,165,0.12);
+      border: 2px solid var(--teal);
+      color: var(--teal);
+    }
+    .team-name {
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--body);
+      margin-bottom: 0.35rem;
+      line-height: 1.35;
+    }
+    .team-role {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .team-role-lead { color: var(--title); }
+    .team-role-volunteer { color: var(--teal); }
+  </style>
+</head>
+<body>
+
+<!-- ── Navigation ─────────────────────────────────────────── -->
+<nav>
+  <div class="nav-logo">
+    <span>CREED</span> // ML Bootcamp
+  </div>
+  <ul class="nav-links">
+    <li><a href="#days">Days</a></li>
+    <li><a href="#glossary">Glossary</a></li>
+    <li><a href="#team">Team</a></li>
+  </ul>
+</nav>
+
+<!-- ── Hero ───────────────────────────────────────────────── -->
+<section class="hero">
+  <p class="hero-kicker"># creed_machine_learning_bootcamp</p>
+  <h1 class="hero-title">Build<br>the Future.</h1>
+  <p class="hero-subtitle">
+    location &nbsp;= &nbsp;<span class="val">"Fountain of Love RCCG, Aberdeen"</span>
+  </p>
+  <p class="hero-subtitle">
+    duration &nbsp;= &nbsp;<span class="val">"5 days"</span>
+  </p>
+  <p class="hero-subtitle" style="margin-bottom:1.4rem;">
+    audience &nbsp;= &nbsp;<span class="val">"Teenagers with no prior coding experience"</span>
+  </p>
+  <p class="hero-prompt">
+    <span class="prompt">&gt;&gt;&gt; </span>bootcamp.start()
+    <span class="cursor"></span>
+  </p>
+  <p class="hero-divider">
+    Everything you need for each day &mdash; slides, notebooks, and datasets &mdash; is below.
+  </p>
+</section>
+
+<!-- ── Days ───────────────────────────────────────────────── -->
+<section class="section" id="days">
+  <p class="section-label"># resources_by_day</p>
+  <h2 class="section-title">Five days of ML</h2>
+
+  <!-- Day 1 -->
+  <div class="day-card">
+    <p class="day-meta"># day_01</p>
+    <h3 class="day-title">Welcome, ML &amp; Data</h3>
+    <p class="day-description">What machine learning actually is, and what makes data useful.</p>
+    <div class="day-body">
+      <div class="day-learns">
+        <h4># what_you_will_learn</h4>
+        <ul>
+          <li>The difference between traditional programming and machine learning</li>
+          <li>Three types of learning: supervised, unsupervised, reinforcement</li>
+          <li>What features and labels are, and why the distinction matters</li>
+          <li>Why data quality can make or break a model</li>
+          <li>Where ML already shows up in your daily life</li>
+        </ul>
+      </div>
+      <div class="day-resources">
+        <h4># resources</h4>
+        <a href="./slides/day1.pptx" class="btn btn-slides" download>
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1v9M4 6l4 4 4-4M2 13h12" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+          Slides (Day 1)
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 2 -->
+  <div class="day-card">
+    <p class="day-meta"># day_02</p>
+    <h3 class="day-title">Supervised + Unsupervised, in Real Code</h3>
+    <p class="day-description">Your first real Python notebook — train a classifier and a clustering model from scratch.</p>
+    <div class="day-body">
+      <div class="day-learns">
+        <h4># what_you_will_learn</h4>
+        <ul>
+          <li>Write and run Python in Google Colab — no installation needed</li>
+          <li>Train a k-NN classifier on the Palmer Penguins dataset</li>
+          <li>Evaluate results honestly with a confusion matrix and F1 score</li>
+          <li>Run K-means clustering on 33,000 Spotify tracks</li>
+          <li>Predict song popularity with a regression model</li>
+        </ul>
+      </div>
+      <div class="day-resources">
+        <h4># resources</h4>
+        <a href="./slides/day2.pptx" class="btn btn-slides" download>
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1v9M4 6l4 4 4-4M2 13h12" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+          Slides (Day 2)
+        </a>
+        <span class="btn btn-disabled">
+          Datasets load in notebook
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 3 — LOCKED -->
+  <div class="day-card featured locked">
+    <p class="lock-badge">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="10" height="8" rx="1.5"/><path d="M5 7V5a3 3 0 016 0v2"/></svg>
+      Available on Day 3
+    </p>
+    <p class="day-meta"># day_03</p>
+    <h3 class="day-title">TrendCaster — A Full ML Project</h3>
+    <p class="day-description">Build, train, and deploy a real classifier from scratch using the CRISP-DM framework.</p>
+    <div class="day-body">
+      <div class="day-learns">
+        <h4># what_you_will_learn</h4>
+        <ul>
+          <li>Run a complete ML workflow using the CRISP-DM framework</li>
+          <li>Spot and remove data leakage before it corrupts your model</li>
+          <li>Balance a skewed dataset using SMOTE</li>
+          <li>Compare Logistic Regression, Random Forest, and XGBoost</li>
+          <li>Deploy your model to a live URL on Hugging Face Spaces</li>
+        </ul>
+      </div>
+      <div class="day-resources">
+        <h4># resources</h4>
+        <span class="btn btn-disabled">Slides (Day 3)</span>
+        <span class="btn btn-disabled">Open in Colab</span>
+        <span class="btn btn-disabled">Dataset (CSV)</span>
+        <span class="btn btn-disabled">Live Demo</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 4 — LOCKED -->
+  <div class="day-card locked">
+    <p class="lock-badge">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="10" height="8" rx="1.5"/><path d="M5 7V5a3 3 0 016 0v2"/></svg>
+      Available on Day 4
+    </p>
+    <p class="day-meta"># day_04</p>
+    <h3 class="day-title">Solo Challenge — Student Performance</h3>
+    <p class="day-description">No mentor guidance. A real dataset, a real brief, and your own decisions from start to finish.</p>
+    <div class="day-body">
+      <div class="day-learns">
+        <h4># what_you_will_learn</h4>
+        <ul>
+          <li>Work independently on a real ML problem without step-by-step guidance</li>
+          <li>Predict student pass/fail using the UCI Student Performance dataset</li>
+          <li>Choose your own models and justify the decision</li>
+          <li>Write a prediction function that runs live on any student profile</li>
+          <li>Reflect honestly on what your model can and cannot fairly judge</li>
+        </ul>
+      </div>
+      <div class="day-resources">
+        <h4># resources</h4>
+        <span class="btn btn-disabled">Slides (Day 4)</span>
+        <span class="btn btn-disabled">Dataset loads in notebook</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 5 — LOCKED -->
+  <div class="day-card locked">
+    <p class="lock-badge">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="10" height="8" rx="1.5"/><path d="M5 7V5a3 3 0 016 0v2"/></svg>
+      Available on Day 5
+    </p>
+    <p class="day-meta"># day_05</p>
+    <h3 class="day-title">Showcase Day — Build Yourself</h3>
+    <p class="day-description">Finish your project, build your slides, and present what you made to the room.</p>
+    <div class="day-body">
+      <div class="day-learns">
+        <h4># the_brief</h4>
+        <div class="code-block">
+          <div><span class="c"># finish your Day 4 notebook</span></div>
+          <div><span class="c"># stretch goals if done early</span></div>
+          <div style="margin-top:0.5rem;"><span class="kw">slides</span> = <span class="fn">build</span>(<span class="str">"3 to 5 slides"</span>)</div>
+          <div><span class="kw">slides</span>.must_include([</div>
+          <div>&nbsp;&nbsp;<span class="str">"the problem"</span>,</div>
+          <div>&nbsp;&nbsp;<span class="str">"the model"</span>,</div>
+          <div>&nbsp;&nbsp;<span class="str">"your numbers"</span>,</div>
+          <div>&nbsp;&nbsp;<span class="str">"one surprise"</span>,</div>
+          <div>&nbsp;&nbsp;<span class="str">"one limitation"</span></div>
+          <div>])</div>
+          <div style="margin-top:0.5rem;"><span class="c"># 12:45 - each person presents</span></div>
+          <div><span class="c"># 13:50 - awards + closing</span></div>
+        </div>
+      </div>
+      <div class="day-resources">
+        <h4># resources</h4>
+        <span class="btn btn-disabled">No slides today</span>
+        <span class="btn btn-disabled">Your notebook is the output</span>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ── Glossary ────────────────────────────────────────────── -->
+<section class="section" id="glossary">
+  <p class="section-label"># ai_glossary</p>
+  <h2 class="section-title">20 terms worth knowing</h2>
+
+  <div class="glossary-grid">
+
+    <div class="glossary-card">
+      <p class="glossary-term">Machine Learning</p>
+      <p class="glossary-def">Teaching a computer to find patterns in data so it can make decisions without being told every rule. Instead of programming the answer, you show it examples.</p>
+    </div>
+
+    <div class="glossary-card">
+      <p class="glossary-term">Algorithm</p>
+      <p class="glossary-def">A step-by-step set of instructions a computer follows to solve a problem. Every model runs on an algorithm under the hood.</p>
+    </div>
+
+    <div class="glossary-card">
+      <p class="glossary-term">Model</p>
+      <p class="glossary-def">The thing an ML system produces after learning from data. You feed it new inputs and it returns a prediction. The model is what gets deployed.</p>
+    </div>
+
+    <div class="glossary-card">
+      <p class="glossary-term">Training</p>
+      <p class="glossary-def">The process of showing a model lots of labelled examples so it can learn the patterns between inputs and outputs. Training only happens once; prediction happens forever after.</p>
+    </div>
+
+    <div class="glossary-card">
+      <p class="glossary-term">Feature</p>
+      <p class="glossary-def">A piece of input information the model uses to make its prediction. For a song: tempo, energy, danceability. For a video: platform, category, creator tier.</p>
+    </div>
+
+    <div class="glossary-card">
+      <p class="glossary-term">Label</p>
+      <p class="glossary-def">The answer the model is trying to predict. "Hit or flop." "Pass or fail." "Rising, stable, declining, or seasonal." Labels are what you give the model during training.</p>
+    </div>
+
+    <div class="glossary-card">
+      <p class="glossary-term">Supervised Learning</p>
+      <p class="glossary-def">Training where you give the model both the inputs and the correct answers. The most common type of ML. Used whenever you have labelled historical data.</p>
+    </div>
+
+    <div class="glossary-card">
+      <p class="glossary-term">Unsupervised Learning</p>
+      <p class="glossary-def">Training with no labels. The model finds structure on its own by grouping similar things together. Used when you do not know what categories exist yet.</p>
+    </div>
+
+    <div class="glossary-card">
+      <p class="glossary-term">Classification</p>
+      <p class="glossary-def">Sorting inputs into categories. Spam or not spam. Trending or declining. Pass or fail. When the output is a named category, it is a classification problem.</p>
+    </div>
+
+    <div class="glossary-card">
+      <p class="glossary-term">Regression</p>
+      <p class="glossary-def">Predicting a number rather than a category. "What score will this student get?" or "How many views will this video get?" When the output is continuous, it is regression.</p>
+    </div>
+
+    <div class="glossary-card">
+      <p class="glossary-term">Accuracy</p>
+      <p class="glossary-def">The percentage of predictions the model got right. Sounds simple, but misleading when one class is much more common than the others. Always check the confusion matrix too.</p>
+    </div>
+
+    <div class="glossary-card">
+      <p class="glossary-term">Confusion Matrix</p>
+      <p class="glossary-def">A grid that shows exactly where a model's predictions were right and where they went wrong. Rows are the real answers. Columns are what the model predicted. The diagonal is correct.</p>
+    </div>
+
+    <div class="glossary-card">
+      <p class="glossary-term">Overfitting</p>
+      <p class="glossary-def">When a model memorises the training data instead of learning general patterns. It scores brilliantly on data it has seen and fails on anything new. The ML equivalent of cheating on a practice paper.</p>
+    </div>
+
+    <div class="glossary-card">
+      <p class="glossary-term">Bias in AI</p>
+      <p class="glossary-def">When a model systematically favours or penalises certain groups, usually because the training data did not represent everyone equally. A model trained mostly on one demographic makes worse predictions for everyone else.</p>
+    </div>
+
+    <div class="glossary-card">
+      <p class="glossary-term">Neural Network</p>
+      <p class="glossary-def">A type of model loosely inspired by how the brain connects neurons. Powerful for images, speech, and language. The foundation of most modern AI you interact with daily.</p>
+    </div>
+
+    <div class="glossary-card">
+      <p class="glossary-term">Large Language Model (LLM)</p>
+      <p class="glossary-def">The type of model behind ChatGPT, Claude, and Gemini. Trained on enormous amounts of text to predict what comes next. That prediction loop, done billions of times, produces what feels like conversation.</p>
+    </div>
+
+    <div class="glossary-card">
+      <p class="glossary-term">Data Leakage</p>
+      <p class="glossary-def">Using information during training that would not actually be available at prediction time. The model looks brilliant in testing but useless in the real world. One of the most common and costly ML mistakes.</p>
+    </div>
+
+    <div class="glossary-card">
+      <p class="glossary-term">Clustering</p>
+      <p class="glossary-def">Grouping similar examples together without being told what the groups should be. K-means is the classic algorithm. Used to find natural structure in data before you know what to look for.</p>
+    </div>
+
+    <div class="glossary-card">
+      <p class="glossary-term">Precision and Recall</p>
+      <p class="glossary-def">Two measures that matter when one type of mistake is worse than another. Precision: of the things the model flagged, how many were real? Recall: of all the real ones, how many did the model catch?</p>
+    </div>
+
+    <div class="glossary-card">
+      <p class="glossary-term">CRISP-DM</p>
+      <p class="glossary-def">A six-phase framework for running ML projects: understand the business problem, understand the data, prepare the data, build the model, evaluate it, then deploy. Used by professionals worldwide.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── Team ────────────────────────────────────────────────── -->
+<section class="section" id="team">
+  <p class="section-label"># meet_the_team</p>
+  <h2 class="section-title">The people behind it</h2>
+
+  <div class="team-grid">
+
+    <!-- Dr Oluwaseun Olabode -->
+    <div class="team-card">
+      <div class="avatar avatar-lead">OO</div>
+      <p class="team-name">Dr Oluwaseun Olabode</p>
+      <p class="team-role team-role-lead">Lead Instructor</p>
+    </div>
+
+    <!-- Oroboade Ayodeji Johnson -->
+    <div class="team-card">
+      <div class="avatar avatar-volunteer">AJ</div>
+      <p class="team-name">Oroboade Ayodeji Johnson</p>
+      <p class="team-role team-role-volunteer">Volunteer Instructor</p>
+    </div>
+
+    <!-- Queen Akindele -->
+    <div class="team-card">
+      <div class="avatar avatar-volunteer">QA</div>
+      <p class="team-name">Queen Akindele</p>
+      <p class="team-role team-role-volunteer">Volunteer Instructor</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── Footer ──────────────────────────────────────────────── -->
+<footer>
+  <p class="footer-logo">CREED &nbsp;//&nbsp; Fountain of Love RCCG &nbsp;//&nbsp; Aberdeen</p>
+  <p class="footer-note">BUILD_THE_FUTURE.py &nbsp;&nbsp;|&nbsp;&nbsp; Machine Learning Bootcamp for Teenagers</p>
+</footer>
+
+</body>
+</html>
