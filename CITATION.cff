@@ -1,0 +1,57 @@
+cff-version: 1.2.0
+title: "Build the Future: A Five-Day Machine Learning Bootcamp for Teenagers"
+message: "If you use, adapt or build on this curriculum, please cite it using the metadata below."
+type: dataset
+authors:
+  - family-names: Olabode
+    given-names: Oluwaseun Franklin
+    name-particle: Dr
+    affiliation: "CREED Aberdeen, RCCG Fountain of Love Aberdeen"
+  - family-names: Oroboade
+    given-names: Ayodeji Johnson
+    affiliation: "CREED Aberdeen, RCCG Fountain of Love Aberdeen"
+  - family-names: Akindele
+    given-names: Queen
+    affiliation: "CREED Aberdeen, RCCG Fountain of Love Aberdeen"
+repository-code: "https://github.com/creedaberdeen/creed-ml-bootcamp"
+url: "https://creedaberdeen.github.io/creed-ml-bootcamp"
+license: CC-BY-4.0
+date-released: "2026-07-01"
+version: "1.0.0"
+abstract: >
+  Build the Future is a five-day machine learning bootcamp curriculum
+  designed for teenagers aged 13 to 17 with no prior coding experience.
+  Delivered in July 2026 by CREED Aberdeen at RCCG Fountain of Love,
+  Aberdeen, Scotland. The curriculum covers the full CRISP-DM workflow
+  from data preparation through to model deployment, using Python and
+  Google Colab. Participants built and deployed a live trend-prediction
+  tool (TrendCaster) using XGBoost, and presented original data projects
+  on the final day.
+keywords:
+  - machine learning
+  - data science
+  - youth education
+  - Python
+  - Google Colab
+  - supervised learning
+  - unsupervised learning
+  - CRISP-DM
+  - XGBoost
+  - bootcamp
+  - teenagers
+  - Aberdeen
+  - Scotland
+institution:
+  name: "RCCG Fountain of Love Aberdeen"
+  alias: "CREED Aberdeen"
+  city: Aberdeen
+  region: Scotland
+  country: GB
+  post-code: "SC031493"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.22883648"
+    description: "Zenodo DOI for this release"
+  - type: url
+    value: "https://creedaberdeen.github.io/creed-ml-bootcamp"
+    description: "Live curriculum website"
