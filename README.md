@@ -95,7 +95,7 @@ You are free to adapt this curriculum under CC BY 4.0. A few things worth knowin
  
 - **Shorter format:** Days 1–3 work well as a standalone three-day introduction. Day 4 (deployment) can be run as a standalone half-day workshop for a group that has already done the basics.
 - **Older audience:** For university students or adult learners, replace the TikTok/YouTube dataset with a domain-relevant dataset for your audience (health, finance, retail). The CRISP-DM structure stays the same.
-- **No internet:** All notebooks can be downloaded and run locally with Jupyter. The Gradio deployment section would need to be replaced with a local demo.
+- **No installation required:** All notebooks can be downloaded and run easily with google collab. The Gradio deployment section would need to be replaced with a local demo.
 - **Translated versions:** If you translate the slides or materials, please share your version back to the repository so others can benefit.
 When you publish or present work based on this curriculum, please cite it using the metadata in `CITATION.cff`.
  
