@@ -47,7 +47,7 @@ institution:
   city: Aberdeen
   region: Scotland
   country: GB
-  post-code: "SC031493"
+  charity number: "SC031493"
 identifiers:
   - type: doi
     value: "10.5281/zenodo.22883648"
