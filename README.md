@@ -109,25 +109,23 @@ creed-ml-bootcamp/
 ├── CITATION.cff            # Citation metadata
 ├── LICENSE                 # CC BY 4.0
 ├── README_FACILITATOR.md   # This file
-├── slides/
-│   ├── Day1_Introduction.pptx
-│   ├── Day2_Supervised_Unsupervised.pptx
-│   ├── Day3_CRISP_DM.pptx
-│   ├── Day4_Deployment.pptx
-│   └── Day5_Pitch.pptx
-└── notebooks/
-    ├── Day2_Supervised_Unsupervised.ipynb
-    ├── Day3_Feature_Engineering.ipynb
-    └── Day4_TrendCaster_Deployment.ipynb
-```
- 
----
+├── assignments/
+│   └── licklider_1960.pdf  # Day 2 reading assignment
+├── data/
+│   ├── trendcaster_dataset.csv       # Main dataset used in Day 3 and Day 4
+│   └── trendcaster_data_dictionary.csv  # Field definitions for the dataset
+└── slides/
+    ├── day1.pptx
+    ├── day2.pptx
+    ├── day3.pptx
+    └── day4.pptx
+ ---
  
 ## Citing This Work
  
 If this curriculum has been useful to you, please cite it:
  
-> Olabode, O. F., Oroboade, A. J., & Akindele, Q. (2026). *Build the Future: A Five-Day Machine Learning Bootcamp for Teenagers* (v1.0.0). CREED Aberdeen / RCCG Fountain of Love Aberdeen. https://github.com/creedaberdeen/creed-ml-bootcamp
+> Olabode, O. F., Oroboade, A. J., & Akindele, Q. (2026). *Build the Future: A Five-Day Machine Learning Bootcamp for Teenagers* (v1.0.0). CREED Aberdeen / RCCG Fountain of Love Aberdeen. [https://doi.org/10.5281/zenodo.22883648].
  
 A machine-readable citation is available in `CITATION.cff`.
  
